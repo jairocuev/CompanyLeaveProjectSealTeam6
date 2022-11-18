@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="secondaryVBox" alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jairocuevas.controllers.employee.EmployeeCalendarController">
+   <children>
+      <AnchorPane prefHeight="401.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="homeButton" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#goHome" text="Home" />
+            <TableView fx:id="employeeCalendarTable" layoutX="21.0" layoutY="100.0" prefHeight="249.0" prefWidth="556.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
