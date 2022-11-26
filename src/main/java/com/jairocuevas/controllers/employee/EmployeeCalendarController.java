@@ -33,7 +33,11 @@ public class EmployeeCalendarController implements Initializable {
     @FXML
     TableColumn endDateColumn = new TableColumn("End Date");
     @FXML
+    TableColumn requestType = new TableColumn("Type");
+    @FXML
     TableColumn requestStatusColumn = new TableColumn("Status");
+    @FXML
+    TableColumn employeeColumn = new TableColumn("Employee");
 
 
     @SuppressWarnings("unchecked")
@@ -49,9 +53,12 @@ public class EmployeeCalendarController implements Initializable {
         endDateColumn.setCellValueFactory(
                 new PropertyValueFactory<TimeOffRequest, String>("endDate"));
 
-        requestStatusColumn.setCellValueFactory(
+        requestType.setCellValueFactory(
                 new PropertyValueFactory<TimeOffRequest, String>("type"));
 
+        requestStatusColumn.setCellValueFactory(
+                new PropertyValueFactory<TimeOffRequest, String>("type"));
+        
         requestStatusColumn.setCellFactory(column -> {
             return new TableCell<TimeOffRequest, String>() {
                 @Override
@@ -76,10 +83,13 @@ public class EmployeeCalendarController implements Initializable {
                 }
             };
         });
+        
+        employeeColumn.setCellValueFactory(
+        		new PropertyValueFactory<TimeOffRequest, String>("employeeName"));
 
         ObservableList<TimeOffRequest> filteredList= AdminController.dayOffRequests.stream().filter(t->t.getEmployee().getId() == App.currentEmployee.getId()).collect(Collectors.toCollection(FXCollections::observableArrayList));
         employeeCalendarTable.setItems(filteredList);
-        employeeCalendarTable.getColumns().addAll(employeeIdColumn, startDateColumn, endDateColumn, requestStatusColumn);
+        employeeCalendarTable.getColumns().addAll(employeeIdColumn, startDateColumn, endDateColumn,requestType, requestStatusColumn, employeeColumn);
     }
 
     @FXML

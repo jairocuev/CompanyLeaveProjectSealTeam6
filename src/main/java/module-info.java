@@ -1,4 +1,7 @@
 module com.jairocuevas {
+	
+	requires java.sql;
+	
     requires javafx.controls;
     requires javafx.fxml;
     requires spring.security.crypto;

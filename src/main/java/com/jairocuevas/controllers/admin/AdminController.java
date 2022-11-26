@@ -43,11 +43,11 @@ public class AdminController implements Initializable {
     @FXML private Button homeButton;
     public static ObservableList<TimeOffRequest> dayOffRequests =
             FXCollections.observableArrayList(
-                    new TimeOffRequest(1, new Employee(1, "Smith" ,0, false, 0), "", "", "Sick Leave",0),
-                    new TimeOffRequest(2, new Employee(121, "Johnson", 0,false, 0), "", "", "Sick Leave",0),
-                    new TimeOffRequest(3, new Employee(121, "Johnson", 0,false, 0), "", "", "Sick Leave",0),
-                    new TimeOffRequest(4, new Employee(3, "Jones", 50,false, 1), "", "", "Maternity Leave",1),
-                    new TimeOffRequest(5, new Employee(5, "Brown", 67,false, 1), "", "", "PTO",2)
+                    new TimeOffRequest(1, new Employee(1, "Marisol" ,null, 0, false, 0), "11/25/2022", "11/25/2022", "Sick Leave",2),
+                    new TimeOffRequest(2, new Employee(121, "Jairo", null, 0,false, 0), "11/26/2022", "11/26/2022", "Sick Leave",0),
+                    new TimeOffRequest(3, new Employee(121, "Jair", null, 0,false, 0), "11/28/2022", "11/29/2022", "Sick Leave",0),
+                    new TimeOffRequest(4, new Employee(3, "Jose", null, 50,false, 0), "11/29/2022", "11/30/2022", "Maternity Leave",1),
+                    new TimeOffRequest(5, new Employee(5, "Angie", null, 67,false, 0), "11/30/2022", "11/30/2022", "PTO",2)
             );
 
     @SuppressWarnings("unchecked")
