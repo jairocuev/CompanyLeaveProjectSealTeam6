@@ -3,6 +3,9 @@ package com.jairocuevas.controllers.admin;
 import com.jairocuevas.App;
 import com.jairocuevas.models.Employee;
 import com.jairocuevas.models.TimeOffRequest;
+import com.jairocuevas.utils.DateHelper;
+import com.jairocuevas.utils.EmployeeDAO;
+import com.jairocuevas.utils.TimeOffRequestsDAO;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +19,9 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class AdminEmployeeController {
     @FXML
@@ -45,12 +51,20 @@ public class AdminEmployeeController {
     @FXML
     public void accept() throws IOException{
     	responseLabel.setText(reqe.getEmployee().getName()+" Has been approved");
-    	reqe.setRequestStatus(1);
+    	TimeOffRequestsDAO.setUpdateRequestStatus(reqe, 1);
     }
     @FXML
     public void deny() throws IOException{
     	responseLabel.setText(reqe.getEmployee().getName()+" Has been denied");
-    	reqe.setRequestStatus(2);
+    	TimeOffRequestsDAO.setUpdateRequestStatus(reqe, 2);
+    	LocalDate startDate= LocalDate.parse(reqe.getStartDate());
+    	LocalDate endDate= LocalDate.parse(reqe.getEndDate());
+    	ZoneId defaultZoneId = ZoneId.systemDefault();
+    	
+    	var days = DateHelper.getWorkingDaysBetweenTwoDates(Date.from(startDate.atStartOfDay(defaultZoneId).toInstant()), Date.from(endDate.atStartOfDay(defaultZoneId).toInstant()));
+        var hours = days * 8;
+        
+        EmployeeDAO.updateEmployeeAccruedTime(reqe.getEmployee(),(int) reqe.getEmployee().getAccruedTime() + hours);
     }
 
     @FXML

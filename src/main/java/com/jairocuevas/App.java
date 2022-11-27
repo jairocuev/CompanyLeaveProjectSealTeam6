@@ -1,5 +1,10 @@
 package com.jairocuevas;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import java.sql.*;
 import com.jairocuevas.models.Employee;
 import com.jairocuevas.models.TimeOffRequest;
 
@@ -24,19 +29,18 @@ public class App extends Application {
     //after launch this method is called 
     @Override
     public void start(Stage stage) throws IOException {
-    	//this is admin example
-    	currentEmployee = new Employee(121,"Johnson", 69, true,1);
-        stage.setTitle("Company Leave MFFF");
+   
+        stage.setTitle("Company Leave Management");
         //auto login
-        var loggedIn = true;
-        if(!loggedIn) {
+//        var loggedIn = false;
+//        if(!loggedIn) {
         	//if failed log on reload login screen and loginContoller is listening to events
             scene = new Scene(loadFXML("login"), 640, 480);
-        }else{
+//        }else{
         	
-            scene = new Scene(loadFXML("employee"), 640, 480);
+//            scene = new Scene(loadFXML("employee"), 640, 480);
 
-        }
+//        }
         stage.setScene(scene);
         stage.show();
     }

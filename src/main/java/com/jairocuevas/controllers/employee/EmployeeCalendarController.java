@@ -3,6 +3,8 @@ package com.jairocuevas.controllers.employee;
 import com.jairocuevas.App;
 import com.jairocuevas.controllers.admin.AdminController;
 import com.jairocuevas.models.TimeOffRequest;
+import com.jairocuevas.utils.TimeOffRequestsDAO;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,7 +35,11 @@ public class EmployeeCalendarController implements Initializable {
     @FXML
     TableColumn endDateColumn = new TableColumn("End Date");
     @FXML
+    TableColumn requestType = new TableColumn("Type");
+    @FXML
     TableColumn requestStatusColumn = new TableColumn("Status");
+    @FXML
+    TableColumn employeeColumn = new TableColumn("Employee");
 
 
     @SuppressWarnings("unchecked")
@@ -49,9 +55,12 @@ public class EmployeeCalendarController implements Initializable {
         endDateColumn.setCellValueFactory(
                 new PropertyValueFactory<TimeOffRequest, String>("endDate"));
 
-        requestStatusColumn.setCellValueFactory(
+        requestType.setCellValueFactory(
                 new PropertyValueFactory<TimeOffRequest, String>("type"));
 
+        requestStatusColumn.setCellValueFactory(
+                new PropertyValueFactory<TimeOffRequest, String>("type"));
+        
         requestStatusColumn.setCellFactory(column -> {
             return new TableCell<TimeOffRequest, String>() {
                 @Override
@@ -76,10 +85,36 @@ public class EmployeeCalendarController implements Initializable {
                 }
             };
         });
+        
+        
+        try {
+        	ObservableList<TimeOffRequest> calendarList;
+        	
+        	if(App.currentEmployee.isAdmin()) {
+        	 calendarList=TimeOffRequestsDAO.getAllTimeOffRequests();
+        	}
+        	else {
+        	 calendarList=TimeOffRequestsDAO.getTimeOffRequestByEmployeeID(App.currentEmployee);
+        	}
+        	 employeeColumn.setCellValueFactory(
+             		new PropertyValueFactory<TimeOffRequest, String>("employeeName"));
 
-        ObservableList<TimeOffRequest> filteredList= AdminController.dayOffRequests.stream().filter(t->t.getEmployee().getId() == App.currentEmployee.getId()).collect(Collectors.toCollection(FXCollections::observableArrayList));
-        employeeCalendarTable.setItems(filteredList);
-        employeeCalendarTable.getColumns().addAll(employeeIdColumn, startDateColumn, endDateColumn, requestStatusColumn);
+//             ObservableList<TimeOffRequest> filteredList= calendarList.stream().filter(t->t.getEmployee().getId() == App.currentEmployee.getId()).collect(Collectors.toCollection(FXCollections::observableArrayList));
+             employeeCalendarTable.setItems(calendarList);
+             System.out.println(calendarList.size());
+             employeeCalendarTable.getColumns().addAll(employeeIdColumn, startDateColumn, endDateColumn,requestType, requestStatusColumn, employeeColumn);
+
+        }
+        catch(Exception e) {
+        	
+        }
+        
+//        employeeColumn.setCellValueFactory(
+//        		new PropertyValueFactory<TimeOffRequest, String>("employeeName"));
+//
+//        ObservableList<TimeOffRequest> filteredList= AdminController.dayOffRequests.stream().filter(t->t.getEmployee().getId() == App.currentEmployee.getId()).collect(Collectors.toCollection(FXCollections::observableArrayList));
+//        employeeCalendarTable.setItems(filteredList);
+//        employeeCalendarTable.getColumns().addAll(employeeIdColumn, startDateColumn, endDateColumn,requestType, requestStatusColumn, employeeColumn);
     }
 
     @FXML

@@ -4,6 +4,9 @@ import com.jairocuevas.App;
 import com.jairocuevas.controllers.admin.AdminController;
 import com.jairocuevas.models.Employee;
 import com.jairocuevas.models.TimeOffRequest;
+import com.jairocuevas.utils.DateHelper;
+import com.jairocuevas.utils.EmployeeDAO;
+import com.jairocuevas.utils.TimeOffRequestsDAO;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +46,7 @@ public class EmployeeController implements Initializable{
     @FXML private ChoiceBox ptoChoiceBox;
 
     private Object timeOffType;
-
+    
     @SuppressWarnings("unchecked")
 	@Override
     public void initialize(URL url, ResourceBundle rb){
@@ -147,21 +150,36 @@ public class EmployeeController implements Initializable{
     	//later will add to database
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
-
-        var days = getWorkingDaysBetweenTwoDates(Date.from(startDate.atStartOfDay(defaultZoneId).toInstant()), Date.from(endDate.atStartOfDay(defaultZoneId).toInstant()));
+        if(startDate==null||endDate==null||timeOffType==null) {
+        	  errorLabel.setStyle("-fx-text-fill: red");
+              errorLabel.setText("Please fill out all fields.");
+              System.out.println(" hekjra");
+        	return;
+        }
+        var days = DateHelper.getWorkingDaysBetweenTwoDates(Date.from(startDate.atStartOfDay(defaultZoneId).toInstant()), Date.from(endDate.atStartOfDay(defaultZoneId).toInstant()));
         var hours = days * 8;
         if(hours > App.currentEmployee.getAccruedTime()){
             errorLabel.setStyle("-fx-text-fill: red");
             errorLabel.setText("You do not have enough accrued hours for the time requested.");
             System.out.println("Not enough time");
         }else{
-            AdminController.dayOffRequests.add(new TimeOffRequest(7,App.currentEmployee,startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                    endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),timeOffType.toString(),0));
+        	
+        	Object leave = TimeOffRequestsDAO.setTimeOffRequest(App.currentEmployee,startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                    endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),timeOffType.toString(),0);
+        	
+//            AdminController.dayOffRequests.add(new TimeOffRequest(7,App.currentEmployee,startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+//                    endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),timeOffType.toString(),0));
+            
+            
             errorLabel.setStyle("-fx-text-fill: black");
             errorLabel.setText("Request Submitted..");
             startDatePicker.setValue(null);
             endDatePicker.setValue(null);
             ptoChoiceBox.setValue(null);
+            
+            
+            EmployeeDAO.updateEmployeeAccruedTime(App.currentEmployee,(int) App.currentEmployee.getAccruedTime() - hours);
+
             App.currentEmployee.setAccruedTime(App.currentEmployee.getAccruedTime() - hours);
             employeePtoBalanceLabel.setText(String.valueOf(App.currentEmployee.getAccruedTime()));
         }
@@ -173,34 +191,6 @@ public class EmployeeController implements Initializable{
 //        System.out.println("Type: " + timeOffType);
     }
 
-    public static int getWorkingDaysBetweenTwoDates(Date startDate, Date endDate) {
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startDate);
-
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endDate);
-
-        int workDays = 0;
-
-        //Return 0 if start and end are the same
-        if (startCal.getTimeInMillis() == endCal.getTimeInMillis()) {
-            return 0;
-        }
-
-        if (startCal.getTimeInMillis() > endCal.getTimeInMillis()) {
-            startCal.setTime(endDate);
-            endCal.setTime(startDate);
-        }
-
-        do {
-            //excluding start date
-            startCal.add(Calendar.DAY_OF_MONTH, 1);
-            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-                ++workDays;
-            }
-        } while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); //excluding end date
-
-        return workDays;
-    }
+  
 
 }

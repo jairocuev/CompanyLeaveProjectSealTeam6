@@ -6,6 +6,9 @@ import com.jairocuevas.App;
 import com.jairocuevas.controllers.admin.AdminEmployeeController;
 import com.jairocuevas.controllers.employee.EmployeeController;
 import com.jairocuevas.models.Employee;
+import com.jairocuevas.utils.EmployeeDAO;
+import com.jairocuevas.utils.SQL;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
-public class LoginController {
+public class LoginController extends SQL{
 
     @FXML
     private TextField usernameTextField;
@@ -32,7 +35,7 @@ public class LoginController {
     private void handleKeyPressed(KeyEvent ke){
         if(ke.getCode().equals(KeyCode.ENTER)){
             try {
-                this.login();
+                this.login();;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -41,16 +44,30 @@ public class LoginController {
 
     @FXML
     private void login() throws IOException {
+    	
         Argon2PasswordEncoder encoder = new Argon2PasswordEncoder(32,64,1,15*1024,2);
-        var myPassword = usernamePasswordField.getText();
-        var encodedPassword = encoder.encode(myPassword);
-        var validPassword = encoder.matches("admin", encodedPassword);
-
-        if(validPassword) {
-            LoginRedirect(new Employee(1, usernameTextField.getText(), 10,true, 1));
-        } else{
-            errorLabel.setText("Login Failed...");
-        }
+       
+        try {
+        	var username=usernameTextField.getText();
+			var user= EmployeeDAO.getEmployeeAuthByUsername(username);
+			System.out.println(user.getId());
+			var myPassword = usernamePasswordField.getText();
+		    var validPassword = encoder.matches(myPassword, user.getPassword());
+//		    var validPassword= myPassword.equals(user.getPassword());
+		    System.out.println(validPassword+ " "+ user.getPassword());
+		        if(validPassword) {
+		        	var employee= EmployeeDAO.getEmployeeByID(user.getEmployeeID());
+//		        	System.out.println(employee);
+		        	App.currentEmployee=employee;
+		        	LoginRedirect(employee);
+		        } else{
+		            errorLabel.setText("Login Failed...");
+		        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 
     }
     @FXML

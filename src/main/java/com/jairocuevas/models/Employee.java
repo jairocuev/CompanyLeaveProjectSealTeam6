@@ -1,18 +1,19 @@
 package com.jairocuevas.models;
 import java.util.*;
 public class Employee {
-    long id;
-    String name;
+	long id;
+	String firstName;
+    String lastName;
     boolean isAdmin;
     long accruedTime;
     int employeeType;
-    int requestNumber;
 //    List<Long> map= new HashMap<>();
     
 
-    public Employee(long id, String name, long accruedTime ,boolean isAdmin, int employeeType) {
+    public Employee(long id, String fname, String lname, long accruedTime ,boolean isAdmin, int employeeType) {
         this.id = id;
-        this.name = name;
+        this.firstName = fname;
+        this.lastName =lname;
         this.accruedTime = accruedTime;
         this.isAdmin = isAdmin;
         this.employeeType = employeeType;
@@ -27,11 +28,11 @@ public class Employee {
     }
 
     public String getName() {
-        return name;
+        return firstName+" "+lastName;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public void setName(String name) {
+//        this. = name;
+//    }
 
     public boolean isAdmin() {
         return isAdmin;
@@ -56,12 +57,12 @@ public class Employee {
     public void setEmployeeType(int employeeType) {
         this.employeeType = employeeType;
     }
-    public void setRequestNumber(int number) {
-    	this.requestNumber=number;
-    }
-    public int getRequestNumber() {
-    	return requestNumber;
-    }
+//    public void setRequestNumber(int number) {
+//    	this.requestNumber=number;
+//    }
+//    public int getRequestNumber() {
+//    	return requestNumber;
+//    }
 //    public void addTimeRequest(TimeOffRequest t) {
 //    	map.put(t.getId(), t);
 //    }
@@ -74,7 +75,7 @@ public class Employee {
     public String toString() {
         return "Employee{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + firstName+ " "+lastName + '\'' +
                 '}';
     }
 }
