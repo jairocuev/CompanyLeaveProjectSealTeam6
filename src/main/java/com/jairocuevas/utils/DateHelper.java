@@ -4,36 +4,37 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateHelper {
-	
-	  public static int getWorkingDaysBetweenTwoDates(Date startDate, Date endDate) {
-	    	
-	        Calendar startCal = Calendar.getInstance();
-	        startCal.setTime(startDate);
 
-	        Calendar endCal = Calendar.getInstance();
-	        endCal.setTime(endDate);
+	public static int getWorkingDaysBetweenTwoDates(Date startDate, Date endDate) {
 
-	        int workDays = 0;
+		Calendar startCal = Calendar.getInstance();
+		startCal.setTime(startDate);
 
-	        //Return 0 if start and end are the same
-	        if (startCal.getTimeInMillis() == endCal.getTimeInMillis()) {
-	            return 0;
-	        }
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(endDate);
 
-	        if (startCal.getTimeInMillis() > endCal.getTimeInMillis()) {
-	            startCal.setTime(endDate);
-	            endCal.setTime(startDate);
-	        }
+		int workDays = 0;
 
-	        do {
-	            //excluding start date
-	            startCal.add(Calendar.DAY_OF_MONTH, 1);
-	            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-	                ++workDays;
-	            }
-	        } while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); //excluding end date
+		// Return 0 if start and end are the same
+		if (startCal.getTimeInMillis() == endCal.getTimeInMillis()) {
+			return 0;
+		}
 
-	        return workDays;
-	    }
+		if (startCal.getTimeInMillis() > endCal.getTimeInMillis()) {
+			startCal.setTime(endDate);
+			endCal.setTime(startDate);
+		}
+
+		do {
+			// excluding start date
+			startCal.add(Calendar.DAY_OF_MONTH, 1);
+			if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+					&& startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+				++workDays;
+			}
+		} while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); // excluding end date
+
+		return workDays;
+	}
 
 }

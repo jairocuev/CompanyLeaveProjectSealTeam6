@@ -26,26 +26,29 @@ public class App extends Application {
     private static Scene scene;
 
     public static Employee currentEmployee;
-    //after launch this method is called 
+
+    // after launch this method is called
     @Override
     public void start(Stage stage) throws IOException {
-   
-        stage.setTitle("Company Leave Management");
-        //auto login
-//        var loggedIn = false;
-//        if(!loggedIn) {
-        	//if failed log on reload login screen and loginContoller is listening to events
-            scene = new Scene(loadFXML("login"), 640, 480);
-//        }else{
-        	
-//            scene = new Scene(loadFXML("employee"), 640, 480);
 
-//        }
+        stage.setTitle("Company Leave Management");
+        // auto login
+        // var loggedIn = false;
+        // if(!loggedIn) {
+        // if failed log on reload login screen and loginContoller is listening to
+        // events
+        scene = new Scene(loadFXML("login"), 640, 480);
+        // }else{
+
+        // scene = new Scene(loadFXML("employee"), 640, 480);
+
+        // }
         stage.setScene(scene);
         stage.show();
     }
 
     public static void setRoot(String fxml) throws IOException {
+        System.out.println(" in the setrroot method");
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -54,8 +57,7 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-
-//launches the login GUI 
+    // launches the login GUI
     public static void main(String[] args) {
         launch();
     }

@@ -1,7 +1,6 @@
 package com.jairocuevas.controllers.admin;
 
 import com.jairocuevas.App;
-import com.jairocuevas.models.Employee;
 import com.jairocuevas.models.TimeOffRequest;
 import com.jairocuevas.utils.DateHelper;
 import com.jairocuevas.utils.EmployeeDAO;
@@ -27,8 +26,6 @@ public class AdminEmployeeController {
     @FXML
     private AnchorPane adminEmployeePane;
     @FXML
-    private TextField employeeNameLabel;
-    @FXML
     private Button backButton;
     @FXML
     private Button acceptButton;
@@ -38,33 +35,49 @@ public class AdminEmployeeController {
     private TextField lastName;
     @FXML
     private Label responseLabel;
-    
-    TimeOffRequest reqe;
-    
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label startDateLabel;
+    @FXML
+    private Label endDateLabel;
+    @FXML
+    private Label typeLabel;
 
-    public void setEmployeeName(String firstName, String lastNames){
-    	System.out.println("yabbado");
-        employeeNameLabel.setText(firstName);
-        lastName.setText(lastNames);
-        
+    TimeOffRequest reqe;
+
+    public void init(TimeOffRequest req) {
+        reqe = req;
+        setRequestData(req);
     }
-    @FXML
-    public void accept() throws IOException{
-    	responseLabel.setText(reqe.getEmployee().getName()+" Has been approved");
-    	TimeOffRequestsDAO.setUpdateRequestStatus(reqe, 1);
+
+    public void setRequestData(TimeOffRequest request) {
+        nameLabel.setText(request.getEmployee().getName());
+        startDateLabel.setText(request.getStartDate());
+        endDateLabel.setText(request.getEndDate());
+        typeLabel.setText(request.getType());
     }
+
     @FXML
-    public void deny() throws IOException{
-    	responseLabel.setText(reqe.getEmployee().getName()+" Has been denied");
-    	TimeOffRequestsDAO.setUpdateRequestStatus(reqe, 2);
-    	LocalDate startDate= LocalDate.parse(reqe.getStartDate());
-    	LocalDate endDate= LocalDate.parse(reqe.getEndDate());
-    	ZoneId defaultZoneId = ZoneId.systemDefault();
-    	
-    	var days = DateHelper.getWorkingDaysBetweenTwoDates(Date.from(startDate.atStartOfDay(defaultZoneId).toInstant()), Date.from(endDate.atStartOfDay(defaultZoneId).toInstant()));
+    public void accept() throws IOException {
+        responseLabel.setText("Request " + reqe.getEmployee().getId() + " has been approved");
+        TimeOffRequestsDAO.setUpdateRequestStatus(reqe, 1);
+    }
+
+    @FXML
+    public void deny() throws IOException {
+        responseLabel.setText("Request " + reqe.getEmployee().getId() + " has been denied");
+        TimeOffRequestsDAO.setUpdateRequestStatus(reqe, 2);
+        LocalDate startDate = LocalDate.parse(reqe.getStartDate());
+        LocalDate endDate = LocalDate.parse(reqe.getEndDate());
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        var days = DateHelper.getWorkingDaysBetweenTwoDates(
+                Date.from(startDate.atStartOfDay(defaultZoneId).toInstant()),
+                Date.from(endDate.atStartOfDay(defaultZoneId).toInstant()));
         var hours = days * 8;
-        
-        EmployeeDAO.updateEmployeeAccruedTime(reqe.getEmployee(),(int) reqe.getEmployee().getAccruedTime() + hours);
+
+        EmployeeDAO.updateEmployeeAccruedTime(reqe.getEmployee(), (int) reqe.getEmployee().getAccruedTime() + hours);
     }
 
     @FXML
@@ -75,8 +88,8 @@ public class AdminEmployeeController {
         Window window = backButton.getScene().getWindow();
 
         if (window instanceof Stage) {
-            Scene scene =  new Scene(root);
-            Stage stage = (Stage) window ;
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) window;
             stage.setTitle("Admin Panel");
             stage.setScene(scene);
             stage.setResizable(false);
@@ -84,11 +97,4 @@ public class AdminEmployeeController {
         }
 
     }
-
-	public void init(TimeOffRequest req) {
-		// TODO Auto-generated method stub
-		System.out.println(req.getEmployee().getName());
-		reqe=req;
-	}
-
 }

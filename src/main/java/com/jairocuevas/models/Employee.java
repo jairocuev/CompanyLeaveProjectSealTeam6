@@ -1,19 +1,19 @@
 package com.jairocuevas.models;
+
 import java.util.*;
+
 public class Employee {
-	long id;
-	String firstName;
+    long id;
+    String firstName;
     String lastName;
     boolean isAdmin;
     long accruedTime;
     int employeeType;
-//    List<Long> map= new HashMap<>();
-    
 
-    public Employee(long id, String fname, String lname, long accruedTime ,boolean isAdmin, int employeeType) {
+    public Employee(long id, String fname, String lname, long accruedTime, boolean isAdmin, int employeeType) {
         this.id = id;
         this.firstName = fname;
-        this.lastName =lname;
+        this.lastName = lname;
         this.accruedTime = accruedTime;
         this.isAdmin = isAdmin;
         this.employeeType = employeeType;
@@ -28,11 +28,11 @@ public class Employee {
     }
 
     public String getName() {
-        return firstName+" "+lastName;
+        return firstName + " " + lastName;
     }
-//    public void setName(String name) {
-//        this. = name;
-//    }
+    // public void setName(String name) {
+    // this. = name;
+    // }
 
     public boolean isAdmin() {
         return isAdmin;
@@ -57,25 +57,24 @@ public class Employee {
     public void setEmployeeType(int employeeType) {
         this.employeeType = employeeType;
     }
-//    public void setRequestNumber(int number) {
-//    	this.requestNumber=number;
-//    }
-//    public int getRequestNumber() {
-//    	return requestNumber;
-//    }
-//    public void addTimeRequest(TimeOffRequest t) {
-//    	map.put(t.getId(), t);
-//    }
-//    public TimeOffRequest getTimeOffRequest(Long id) {
-//    	return map.get(id);
-//    }
-    
+    // public void setRequestNumber(int number) {
+    // this.requestNumber=number;
+    // }
+    // public int getRequestNumber() {
+    // return requestNumber;
+    // }
+    // public void addTimeRequest(TimeOffRequest t) {
+    // map.put(t.getId(), t);
+    // }
+    // public TimeOffRequest getTimeOffRequest(Long id) {
+    // return map.get(id);
+    // }
 
     @Override
     public String toString() {
         return "Employee{" +
                 "id=" + id +
-                ", name='" + firstName+ " "+lastName + '\'' +
+                ", name='" + firstName + " " + lastName + '\'' +
                 '}';
     }
 }

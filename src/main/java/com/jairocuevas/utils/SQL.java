@@ -11,22 +11,19 @@ public class SQL {
 	static Connection conn = null;
 	static Statement stmt = null;
 	static ResultSet rs = null;
-	static PreparedStatement ps=null;
+	static PreparedStatement ps = null;
 
+	public SQL() {
 
-	public SQL(){
-
-		try{
+		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-// 			TODO: Update connection string to launch app
-			String connectionUrl = "";
+			// TODO: Update connection string to launch app
+			String connectionUrl = "jdbc:mysql://root:goRDYhi5HnyIfAt4t1y0@containers-us-west-119.railway.app:5638/railway";
 
 			conn = DriverManager.getConnection(connectionUrl);
 			stmt = conn.createStatement();
-			
-	
-		}
-		catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

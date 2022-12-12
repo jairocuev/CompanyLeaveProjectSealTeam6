@@ -13,6 +13,11 @@
       <Label fx:id="employeeNameLabel" layoutX="118.0" layoutY="135.0" prefHeight="25.0" prefWidth="80.0" />
       <Label fx:id="ptoBalanceLabel" layoutX="45.0" layoutY="174.0" prefHeight="38.0" prefWidth="92.0" text="PTO Balance:" />
       <Label fx:id="employeePtoBalanceLabel" layoutX="137.0" layoutY="181.0" prefHeight="25.0" prefWidth="80.0" />
+      <DatePicker fx:id="startDatePicker" layoutX="372.0" layoutY="80.0" />
+      <DatePicker fx:id="endDatePicker" layoutX="372.0" layoutY="135.0" />
+      <Label layoutX="372.0" layoutY="53.0" text="Select Start Date:" />
+      <Label layoutX="372.0" layoutY="114.0" text="Select End Date:" />
+      <ChoiceBox fx:id="ptoChoiceBox" layoutX="372.0" layoutY="200.0" prefWidth="150.0" />
       <ButtonBar cacheShape="false" centerShape="false" depthTest="DISABLE" focusTraversable="false" layoutX="1.0" layoutY="288.0" prefHeight="25.0" prefWidth="567.0" scaleShape="false">
          <buttons>
             <Button fx:id="manageEmployeeRequestButton" alignment="CENTER" minWidth="0.0" mnemonicParsing="false" onAction="#manageEmployeeRequests" prefHeight="25.0" prefWidth="330.0" text="Manage Employees Requests" />
@@ -20,11 +25,6 @@
          </buttons>
       </ButtonBar>
       <Button fx:id="logoutButton" layoutX="158.0" layoutY="346.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="252.0" text="Logout" />
-      <DatePicker fx:id="startDatePicker" layoutX="372.0" layoutY="80.0" />
-      <DatePicker fx:id="endDatePicker" layoutX="372.0" layoutY="135.0" />
-      <Label layoutX="372.0" layoutY="53.0" text="Select Start Date:" />
-      <Label layoutX="372.0" layoutY="114.0" text="Select End Date:" />
-      <ChoiceBox fx:id="ptoChoiceBox" layoutX="372.0" layoutY="200.0" prefWidth="150.0" />
       <Label layoutX="372.0" layoutY="176.0" text="Select Type:" />
       <Button fx:id="showCalendarButton" layoutX="414.0" layoutY="14.0" mnemonicParsing="false" onAction="#showCalendar" prefHeight="25.0" prefWidth="143.0" text="Show Calendar" />
       <Label fx:id="errorLabel" layoutX="37.0" layoutY="62.0" prefHeight="38.0" prefWidth="269.0" wrapText="true" />

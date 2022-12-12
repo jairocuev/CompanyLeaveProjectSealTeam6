@@ -18,7 +18,7 @@
          </VBox.margin>
       </TextField>
       <PasswordField fx:id="usernamePasswordField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="199.0" promptText="Password" />
-      <Hyperlink fx:id="registerLink" onMouseClicked="#registerScreenNav" text="Register" />
+      <Hyperlink fx:id="registerLink" onAction="#registerScreenNav" onMouseClicked="#registerScreenNav" text="Register" />
       <Label fx:id="errorLabel" />
       <Button fx:id="primaryButton" onAction="#login" text="Login" />
    </children>
